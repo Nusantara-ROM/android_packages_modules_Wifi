@@ -34,6 +34,7 @@ import android.net.wifi.WifiSsid;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Process;
+import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -373,7 +374,7 @@ public class WifiApConfigStore {
     private SoftApConfiguration getDefaultApConfiguration() {
         SoftApConfiguration.Builder configBuilder = new SoftApConfiguration.Builder();
         configBuilder.setBand(generateDefaultBand(mContext));
-        configBuilder.setSsid(Build.MODEL);
+        configBuilder.setSsid(SystemProperties.get("ro.product.marketname", Build.MODEL));
         if (ApConfigUtil.isWpa3SaeSupported(mContext)) {
             configBuilder.setPassphrase(generatePassword(),
                     SECURITY_TYPE_WPA3_SAE_TRANSITION);
@@ -405,7 +406,7 @@ public class WifiApConfigStore {
     }
 
     private static String generateLohsSsid(Context context) {
-        return Build.MODEL;
+        return SystemProperties.get("ro.product.marketname", Build.MODEL);
     }
 
     private static boolean hasAutomotiveFeature(Context context) {
